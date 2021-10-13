@@ -1,11 +1,10 @@
-from settings import *
 import pygame
+from settings import *
 
 from cell import Cell
 
 
 class Grid:
-
     def __init__(self, screen):
         self.screen = screen
         self.matrix_dims = (SCREEN_WIDTH // CELL_SIZE, SCREEN_HEIGHT // CELL_SIZE)
@@ -20,7 +19,12 @@ class Grid:
             row = []
             for y in range(amount_of_cells):
                 cell = Cell(self.screen, x, y)
-                if x == 0 or x == amount_of_cells - 1 or y == 0 or y == amount_of_cells - 1:
+                if (
+                    x == 0
+                    or x == amount_of_cells - 1
+                    or y == 0
+                    or y == amount_of_cells - 1
+                ):
                     cell.edge_cell = True
                     cell.make_wall()
                 row.append(cell)
@@ -40,7 +44,7 @@ class Grid:
                 BLACK,
                 (CELL_SIZE, y * CELL_SIZE - CELL_SIZE),
                 (SCREEN_WIDTH - CELL_SIZE, y * CELL_SIZE - CELL_SIZE),
-                1
+                1,
             )
 
         # Draw vertical lines
@@ -50,7 +54,7 @@ class Grid:
                 GREY,
                 (x * CELL_SIZE - CELL_SIZE, CELL_SIZE),
                 (x * CELL_SIZE - CELL_SIZE, SCREEN_HEIGHT - CELL_SIZE),
-                1
+                1,
             )
 
     def draw_cells(self):

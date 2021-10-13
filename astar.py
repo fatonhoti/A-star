@@ -1,9 +1,10 @@
+from queue import PriorityQueue
 from sys import exit
+
+import pygame
 
 from models.grid import Grid
 from settings import *
-
-import pygame
 
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 icon = pygame.image.load("assets/images/icon.png")
@@ -12,6 +13,34 @@ pygame.display.set_icon(icon)
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
+
+
+def h(cell, goal_cell):
+    """
+    h is a heuristic function that estimates the cost of the
+    cheapest path from cell to the goal_cell.
+    """
+    pass
+
+
+def g(start_cell, cell):
+    """
+    Calculates the cost of the path from the start_cell to cell.
+    """
+    pass
+
+
+def a_star(grid):
+
+    start_cell = grid.start_cell
+    end_cell = grid.end_cell
+
+    f = lambda cell: g(cell) + h(cell)
+
+    # ----- START OF THE A* ALGORITHM -----
+
+    open_set = {}
+    came_from = {}
 
 
 def run():
