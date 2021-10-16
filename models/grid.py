@@ -13,13 +13,29 @@ class Grid:
         self.end_cell = None
 
     def create(self):
+        from random import uniform, choice
         self.cells = []
         amount_of_cells = SCREEN_WIDTH // CELL_SIZE
         for i in range(amount_of_cells):
             row = []
             for j in range(amount_of_cells):
-                row.append(Cell(self.screen, i, j))
+                cell = Cell(self.screen, i, j)
+                row.append(cell)
+                if uniform(0, 1) < 0.3:
+                    cell.make_wall()
             self.cells.append(row)
+
+        flattened_cells = [c for row in self.cells for c in row]
+        empty_cells = list(filter(lambda x: x.color == WHITE, flattened_cells))
+
+        start_cell = choice(empty_cells)
+        start_cell.make_start()
+        self.start_cell = start_cell
+        empty_cells.remove(start_cell)
+
+        end_cell = choice(empty_cells)
+        end_cell.make_end()
+        self.end_cell = end_cell
 
     def draw(self):
         # Clear screen
