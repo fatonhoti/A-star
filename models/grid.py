@@ -1,3 +1,5 @@
+from random import choice, uniform
+
 import pygame
 from settings import *
 
@@ -13,7 +15,11 @@ class Grid:
         self.end_cell = None
 
     def create(self):
-        from random import uniform, choice
+        sparsity = 0.3  # 1 in 3 cells will be walls.
+        """
+        Generate a random matrix of empty cells and wall-cells.
+        :return: Nothing
+        """
         self.cells = []
         amount_of_cells = SCREEN_WIDTH // CELL_SIZE
         for i in range(amount_of_cells):
@@ -21,10 +27,11 @@ class Grid:
             for j in range(amount_of_cells):
                 cell = Cell(self.screen, i, j)
                 row.append(cell)
-                if uniform(0, 1) < 0.3:
+                if uniform(0, 1) < sparsity:
                     cell.make_wall()
             self.cells.append(row)
 
+        # Pick the start- and end cell at random
         flattened_cells = [c for row in self.cells for c in row]
         empty_cells = list(filter(lambda x: x.color == WHITE, flattened_cells))
 
@@ -38,6 +45,10 @@ class Grid:
         self.end_cell = end_cell
 
     def draw(self):
+        """
+        Draws gridlines on the screen to form a matrix.
+        :return: Nothing
+        """
         # Clear screen
         self.screen.fill(WHITE)
 
@@ -72,6 +83,10 @@ class Grid:
         return self.cells[row][col]
 
     def reset(self):
+        """
+        Resets the grid.
+        :return: Nothing
+        """
         self.start_cell = None
         self.end_cell = None
         self.create()

@@ -17,6 +17,11 @@ clock = pygame.time.Clock()
 
 
 def draw(grid):
+    """
+    Draws the grid and the individual cells.
+    :param grid: The grid object modelling the matrix of cells
+    :return: Nothing
+    """
     # Draw
     grid.draw()
 
@@ -28,28 +33,39 @@ def draw(grid):
     clock.tick(FPS)
 
 
-def d(cell, goal_cell):
-    (x1, y1) = cell.get_pos()
-    (x2, y2) = goal_cell.get_pos()
+def d(c1, c2):
+    """
+    Calculates the euclidean distance between two cells
+    :param c1: The cell object of the first cell
+    :param c2: The cell object of the second cell
+    :return: Euclidean distance between two cells
+    """
+    (x1, y1) = c1.get_pos()
+    (x2, y2) = c2.get_pos()
     return sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
-    # return abs(x1 - x2) + abs(y1 - y2)
 
 
 def reconstruct_path(came_from, current, grid):
-    # total_path = [current]
+    """
+    Backtracks through the solution and draws the solution path on the screen.
+    :param came_from: For node n, cameFrom[n] is the node immediately preceding it on the cheapest path from start to n currently known.
+    :param current: The position from which the backtracking to the start will begin.
+    :param grid: The grid object modelling the matrix of cells
+    :return: Nothing
+    """
     current.make_solution()
     while current in came_from.keys():
-
         current = came_from[current]  # Step back
         current.make_solution()
-        # total_path.insert(0, current)
-
         draw(grid)
-
-    # return total_path
 
 
 def a_star(grid):
+    """
+    Calculates the shortest path between two cells in a given matrix using the A* path-search algorithm.
+    :param grid: The grid object modelling the matrix of cells
+    :return: Nothing
+    """
 
     start_cell = grid.start_cell
     end_cell = grid.end_cell
@@ -87,7 +103,7 @@ def a_star(grid):
         current = open_set.get()[2]
         closed_set.add(current)
 
-        if current == end_cell:
+        if current == end_cell:  # Solution found
             reconstruct_path(came_from, current, grid)
             return
 
